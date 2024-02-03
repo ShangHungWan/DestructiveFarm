@@ -24,13 +24,14 @@ TIMEOUT = 5
 
 def submit_flags(flags, config):
     r = requests.put(config['SYSTEM_URL'],
-                     headers={'X-Team-Token': config['SYSTEM_TOKEN']},
-                     json=[item.flag for item in flags], timeout=TIMEOUT)
+                    json={
+                        'flags': [item.flag for item in flags],
+                        'token': config['TEAM_TOKEN'],
+                    }, timeout=TIMEOUT)
 
     unknown_responses = set()
     for item in r.json():
-        response = item['msg'].strip()
-        response = response.replace('[{}] '.format(item['flag']), '')
+        response = item.strip()
 
         response_lower = response.lower()
         for status, substrings in RESPONSES.items():
