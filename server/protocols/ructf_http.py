@@ -1,4 +1,5 @@
 import requests
+import json
 
 from server import app
 from server.models import FlagStatus, SubmitResult
@@ -7,9 +8,9 @@ from server.models import FlagStatus, SubmitResult
 RESPONSES = {
     FlagStatus.QUEUED: ['timeout', 'game not started', 'try again later', 'game over', 'is not up',
                         'no such flag'],
-    FlagStatus.ACCEPTED: ['accepted', 'congrat'],
+    FlagStatus.ACCEPTED: ['accepted', 'congrat', 'accept'],
     FlagStatus.REJECTED: ['bad', 'wrong', 'expired', 'unknown', 'your own',
-                          'too old', 'not in database', 'already submitted', 'invalid flag'],
+                          'too old', 'not in database', 'already submitted', 'invalid flag', 'duplicated'],
 }
 # The RuCTF checksystem adds a signature to all correct flags. It returns
 # "invalid flag" verdict if the signature is invalid and "no such flag" verdict if
@@ -30,7 +31,8 @@ def submit_flags(flags, config):
                     }, timeout=TIMEOUT)
 
     unknown_responses = set()
-    for item in r.json():
+
+    for item in json.loads(r.text):
         response = item.strip()
 
         response_lower = response.lower()
