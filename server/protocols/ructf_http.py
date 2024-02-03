@@ -24,10 +24,10 @@ TIMEOUT = 5
 
 
 def submit_flags(flags, config):
-    r = requests.put(config['SYSTEM_URL'],
+    r = requests.post(config['SYSTEM_URL'],
                     json={
                         'flags': [item.flag for item in flags],
-                        'token': config['TEAM_TOKEN'],
+                        'token': config['SYSTEM_TOKEN'],
                     }, timeout=TIMEOUT)
 
     unknown_responses = set()
