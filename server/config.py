@@ -3,7 +3,7 @@ CONFIG = {
 
     # The clients will run sploits on TEAMS and
     # fetch FLAG_FORMAT from sploits' stdout.
-    'TEAMS': {'Team #{}'.format(i): '10.0.0.{}'.format(i)
+    'TEAMS': {'Team #{}'.format(i): '10.102.{}.20'.format(i)
               for i in range(1, 10 + 1)},
     'FLAG_FORMAT': r'EOF[a-z0-9]{29}',
 
