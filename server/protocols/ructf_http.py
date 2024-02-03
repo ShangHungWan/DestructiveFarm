@@ -32,6 +32,7 @@ def submit_flags(flags, config):
 
     unknown_responses = set()
 
+    counter = -1
     for item in json.loads(r.text):
         response = item.strip()
 
@@ -45,5 +46,5 @@ def submit_flags(flags, config):
             if response not in unknown_responses:
                 unknown_responses.add(response)
                 app.logger.warning('Unknown checksystem response (flag will be resent): %s', response)
-
-        yield SubmitResult(item['flag'], found_status, response)
+        counter += 1
+        yield SubmitResult(flags[counter].flag, found_status, response)
